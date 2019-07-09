@@ -1,0 +1,488 @@
+-- phpMyAdmin SQL Dump
+-- version 4.8.3
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1:3306
+-- Generation Time: Jul 09, 2019 at 02:49 PM
+-- Server version: 5.7.23
+-- PHP Version: 7.2.10
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `hexacomv12`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `announcement`
+--
+
+DROP TABLE IF EXISTS `announcement`;
+CREATE TABLE IF NOT EXISTS `announcement` (
+  `announce_id` int(11) NOT NULL AUTO_INCREMENT,
+  `subject` varchar(20) NOT NULL,
+  `content` varchar(255) NOT NULL,
+  `created_at` date NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`announce_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cashinvoice`
+--
+
+DROP TABLE IF EXISTS `cashinvoice`;
+CREATE TABLE IF NOT EXISTS `cashinvoice` (
+  `cashinvoice_id` int(255) NOT NULL AUTO_INCREMENT,
+  `client_id` int(255) NOT NULL,
+  `cash_no` int(255) NOT NULL,
+  `date` datetime(6) NOT NULL,
+  `user_id` int(255) NOT NULL,
+  `cost` int(255) NOT NULL,
+  PRIMARY KEY (`cashinvoice_id`),
+  KEY `client_id` (`client_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `chargeinvoice`
+--
+
+DROP TABLE IF EXISTS `chargeinvoice`;
+CREATE TABLE IF NOT EXISTS `chargeinvoice` (
+  `chargeinvoice_id` int(255) NOT NULL AUTO_INCREMENT,
+  `charge_no` int(255) NOT NULL,
+  `date` datetime(6) DEFAULT NULL,
+  `entity` varchar(20) NOT NULL,
+  `person_incharge` varchar(255) DEFAULT NULL,
+  `po_no` int(255) DEFAULT NULL,
+  `description` varchar(255) NOT NULL,
+  `brand` varchar(255) NOT NULL,
+  `model` varchar(255) NOT NULL,
+  `serial_no` varchar(255) DEFAULT NULL,
+  `qty` varchar(255) NOT NULL,
+  `unit_price` int(100) NOT NULL,
+  `total` int(100) NOT NULL,
+  `date_received` datetime NOT NULL,
+  `or_no` int(100) NOT NULL,
+  `bank` varchar(100) NOT NULL,
+  `check_no` varchar(100) NOT NULL,
+  `amount` int(100) DEFAULT NULL,
+  `tax` varchar(100) DEFAULT NULL,
+  `cost` int(100) DEFAULT NULL,
+  `net_cost` int(100) DEFAULT NULL,
+  `updated_at` datetime NOT NULL,
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`chargeinvoice_id`),
+  KEY `or_no` (`or_no`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `chargeinvoice`
+--
+
+INSERT INTO `chargeinvoice` (`chargeinvoice_id`, `charge_no`, `date`, `entity`, `person_incharge`, `po_no`, `description`, `brand`, `model`, `serial_no`, `qty`, `unit_price`, `total`, `date_received`, `or_no`, `bank`, `check_no`, `amount`, `tax`, `cost`, `net_cost`, `updated_at`, `created_at`) VALUES
+(1, 999, '2019-07-09 00:00:00.000000', 'BSU', 'Malou Yusongco', 1233, '', '', '', NULL, '18000', 0, 0, '0000-00-00 00:00:00', 0, '', '', NULL, NULL, NULL, NULL, '2019-07-09 21:14:16', '2019-07-09 21:14:16');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `clients`
+--
+
+DROP TABLE IF EXISTS `clients`;
+CREATE TABLE IF NOT EXISTS `clients` (
+  `client_id` int(255) NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(255) NOT NULL,
+  `last_name` varchar(255) NOT NULL,
+  `contact_no` bigint(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `landline_no` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`client_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `inventory`
+--
+
+DROP TABLE IF EXISTS `inventory`;
+CREATE TABLE IF NOT EXISTS `inventory` (
+  `inventory_id` int(255) NOT NULL AUTO_INCREMENT,
+  `inventory_owner_id` int(45) DEFAULT NULL,
+  `inventory_item` varchar(255) NOT NULL,
+  `inventory_brand` varchar(255) NOT NULL DEFAULT 'Generic',
+  `inventory_model` varchar(255) NOT NULL DEFAULT 'not specified',
+  `inventory_socket` varchar(255) NOT NULL DEFAULT 'not specified',
+  `processor_socket` varchar(15) NOT NULL,
+  `inventory_serial_no` varchar(255) NOT NULL DEFAULT 'no entry',
+  `cost` int(255) NOT NULL,
+  `inventory_supplier` varchar(255) NOT NULL,
+  `date_received` datetime NOT NULL,
+  `inventory_status` varchar(255) DEFAULT 'Available' COMMENT 'Available and Sold lang pwede dito, you can change it to enum tho hehe',
+  `inventory_type` varchar(255) DEFAULT NULL COMMENT 'CPU\nMotherboard\nRAM\nGpu\nHard Drive / SSD (same lang)\nOS\nMS OFFICE\nPower Supply\nProcessor Cooling\nExtra Case Fan\nMonitor\nMouse\nKeyboard\nHeadset',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`inventory_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=200 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `inventory`
+--
+
+INSERT INTO `inventory` (`inventory_id`, `inventory_owner_id`, `inventory_item`, `inventory_brand`, `inventory_model`, `inventory_socket`, `processor_socket`, `inventory_serial_no`, `cost`, `inventory_supplier`, `date_received`, `inventory_status`, `inventory_type`, `created_at`, `updated_at`) VALUES
+(148, NULL, 'Windows 10', 'Microsoft', 'Windows 10 pro', 'N/A', 'N/A', '55555', 5000, 'Tiongsan', '2019-06-26 00:00:00', 'Available', 'OS', '2019-07-05 20:11:12', '2019-07-05 22:11:13'),
+(149, NULL, 'Windows 10', 'Microsoft', 'Windows 10 pro', 'N/A', 'N/A', '55556', 5000, 'Tiongsan', '2019-06-26 00:00:00', 'Available', 'OS', '2019-07-05 20:13:34', '2019-07-09 22:46:54'),
+(150, NULL, 'Windows 10', 'Microsoft', 'Windows 10 pro', 'N/A', 'N/A', '55557', 5000, 'Tiongsan', '2019-06-26 00:00:00', 'Available', 'OS', '2019-07-05 20:13:58', '2019-07-05 22:12:27'),
+(151, NULL, 'CORSAIR VENGEANCE LED', 'CORSAIR', 'N/A', 'DDR4', 'N/A', '11111', 6604, 'Tiongsan', '2019-06-25 00:00:00', 'Available', 'RAM', '2019-07-05 20:29:22', '2019-07-05 22:11:13'),
+(152, NULL, 'ASUS P7P55D DELUXE motherboard', 'Asus', 'P7P55D Deluxe', 'DDR3 SDRAM', 'LGA 1156', '44444', 6301, 'Innovative', '2019-06-25 00:00:00', 'Available', 'Motherboard', '2019-07-05 20:30:04', '2019-07-05 22:11:13'),
+(153, NULL, 'Intel Core i5', 'Intel', '7600K', 'N\\A', 'LGA1151', '22222', 12550, 'Comerge', '2019-06-29 00:00:00', 'Available', 'CPU', '2019-07-05 20:30:04', '2019-07-05 22:11:13'),
+(154, NULL, 'Intel Core i5', 'Intel', '7600K', 'N\\A', 'LGA1151', '22223', 12550, 'Comerge', '2019-06-29 00:00:00', 'Available', 'CPU', '2019-07-05 20:30:57', '2019-07-05 22:22:59'),
+(155, NULL, 'Kingston Technology HyperX Predator', 'Kingston', 'N/A', 'DDR4', 'N/A', '11112', 5147, 'Innovative', '2019-06-27 00:00:00', 'Available', 'RAM', '2019-07-05 20:31:01', '2019-07-09 22:46:54'),
+(156, NULL, 'Ninja GT', 'NVIDIA', 'GT730 4GB DDR3', 'DDR3', 'N/A', '33333', 3700, 'Innovative', '2019-06-25 00:00:00', 'Available', 'GPU', '2019-07-05 20:32:03', '2019-07-05 22:11:13'),
+(157, NULL, 'G.SKILL Ripjaws X Series', 'G.SKILL', 'N/A', 'DDR3', 'N/A', '11113', 2423, 'Hinjitsu', '2019-06-27 00:00:00', 'Available', 'RAM', '2019-07-05 20:32:40', '2019-07-05 22:12:26'),
+(158, NULL, 'MSI MPG Z390 Gaming PRO Carbon', 'MSI', 'MPG Z390', 'DDR4', 'LGA 1151', '44445', 17951, 'Innovative', '2019-06-28 00:00:00', 'Available', 'Motherboard', '2019-07-05 20:33:05', '2019-07-09 22:46:54'),
+(159, NULL, 'Gigabyte GA-B85M-D3V Plus', 'Gigabyte', 'GA-B85M-D3V Plus', 'DDR3', 'LGA 1150', '44446', 3071, 'Hinjitsu', '2019-06-26 00:00:00', 'Available', 'Motherboard', '2019-07-05 20:35:21', '2019-07-05 22:12:26'),
+(160, NULL, 'GeForce', 'NVIDIA', 'GeForce GTX650ti', 'GDDR5', 'N/A', '33334', 2786, 'Innovative', '2019-06-24 00:00:00', 'Available', 'GPU', '2019-07-05 20:36:20', '2019-07-09 22:46:54'),
+(161, NULL, 'GeForce GTX1660', 'NVIDIA', 'GTX 1660 TI Twin X2 6GB', 'DDR6', 'N/A', '33335', 28720, 'Innovative', '2019-06-27 00:00:00', 'Available', 'GPU', '2019-07-05 20:40:27', '2019-07-05 22:12:26'),
+(162, NULL, 'AMD Ryzen 5', 'AMD', '2400g', 'N\\A', 'AM3', '22225', 10200, 'Comerge', '2019-06-29 00:00:00', 'Available', 'CPU', '2019-07-05 20:41:53', '2019-07-09 22:46:54'),
+(163, NULL, 'AMD Ryzen 5', 'AMD', '2400g', 'N\\A', 'AM3', '22226', 10200, 'Comerge', '2019-06-29 00:00:00', 'Available', 'CPU', '2019-07-05 20:42:07', '2019-07-05 22:24:15'),
+(164, NULL, 'ADATA XPG V1', 'ADATA', 'N/A', 'DDR3', 'N/A', '11114', 2417, 'Comerge', '2019-06-28 00:00:00', 'Available', 'RAM', '2019-07-05 20:45:20', '2019-07-05 22:24:15'),
+(165, NULL, 'Colorful CVN B365M', 'Colorful', 'CVN B365M', 'DDR4', 'LGA 1151', '44447', 6406, 'Comerge', '2019-06-27 00:00:00', 'Available', 'Motherboard', '2019-07-05 20:47:45', '2019-07-05 22:24:15'),
+(166, NULL, 'Rapoo NK1800 Entry Level Membrane Wired Keyboard', 'Rapoo', 'NK1800', 'N/A', 'N/A', '77778', 299, 'Innovative', '2019-06-28 00:00:00', 'Available', 'Keyboard', '2019-07-05 20:52:10', '2019-07-05 22:11:13'),
+(167, NULL, 'Gigaware Midio RX-8 Dazzle Mechanical Feel Gaming Keyboard', 'Gigaware', 'Midio RX-8', 'N/A', 'N/A', '77779', 449, 'Innovative', '2019-06-25 00:00:00', 'Available', 'Keyboard', '2019-07-05 20:54:43', '2019-07-09 22:46:54'),
+(168, NULL, 'Corsair RM550x', 'Corsair', 'RM550x', 'N\\A', 'N\\A', '00000', 5900, 'Comerge', '2019-06-28 00:00:00', 'Available', 'Power Supply', '2019-07-05 20:54:50', '2019-07-09 22:46:54'),
+(169, NULL, 'Corsair RM550x', 'Corsair', 'RM550x', 'N\\A', 'N\\A', '00001', 5900, 'Comerge', '2019-06-28 00:00:00', 'Available', 'Power Supply', '2019-07-05 20:55:02', '2019-07-05 22:22:59'),
+(170, NULL, 'Wireless Optical Padless', 'A4Tech', 'Wireless Optical Padless Mouse G3-280N', 'N/A', 'N/A', '88888', 349, 'Innovative', '2019-07-25 00:00:00', 'Available', 'Mouse', '2019-07-05 20:55:25', '2019-07-05 22:11:13'),
+(171, NULL, 'Corsair SF450', 'Corsair', 'SF450', 'N\\A', 'N\\A', '00002', 8800, 'Comerge', '2019-06-28 00:00:00', 'Available', 'Power Supply', '2019-07-05 20:57:06', '2019-07-05 22:12:27'),
+(172, NULL, 'Corsair SF450', 'Corsair', 'SF450', 'N\\A', 'N\\A', '00003', 8800, 'Comerge', '2019-06-28 00:00:00', 'Available', 'Power Supply', '2019-07-05 20:57:20', '2019-07-05 20:57:20'),
+(173, NULL, 'Gigaware Motospeed K70 104 Keys RGB Waterproof', 'Gigaware', 'K70', 'N/A', 'N/A', '77770', 579, 'Innovative', '2019-06-24 00:00:00', 'Available', 'Keyboard', '2019-07-05 20:57:23', '2019-07-05 22:12:27'),
+(174, NULL, 'ASUS 4K/UHD 28-Inch FreeSync Gaming Monitor', 'ASUS', 'MG28UQ', 'N/A', 'N/A', '99990', 15079, 'Innovative', '2019-06-29 00:00:00', 'Available', 'Monitor', '2019-07-05 20:58:25', '2019-07-09 22:46:54'),
+(175, NULL, 'M100R Optical Mouse', 'Logitech', 'M100R Optical Mouse', 'N/A', 'N/A', '88889', 188, 'Innovative', '2019-06-29 00:00:00', 'Available', 'Mouse', '2019-07-05 20:58:59', '2019-07-05 22:22:59'),
+(176, NULL, 'Redragon K557 KALA Mechanical Gaming Keyboard', 'Redragon', 'K557', 'N/A', 'N/A', '77771', 2125, 'Innovative', '2019-06-25 00:00:00', 'Available', 'Keyboard', '2019-07-05 20:59:23', '2019-07-05 22:24:15'),
+(177, NULL, 'LG 24-Inch LED-lit Monitor', 'LG', '24M47VQ', 'N/A', 'N/A', '99991', 7279, 'Innovative', '2019-06-29 00:00:00', 'Available', 'Monitor', '2019-07-05 20:59:47', '2019-07-05 22:22:59'),
+(178, NULL, 'Samsung 27-Inch Curved LED Monitor (LC27F398FWNXZA)', 'Samsung', 'C27F398', 'N/A', 'N/A', '99992', 10009, 'Hinjitsu', '2019-06-27 00:00:00', 'Available', 'Monitor', '2019-07-05 21:01:05', '2019-07-05 22:24:15'),
+(179, NULL, 'Wireless Mini Bluetooth Optical Mouse', 'OEM', '6D 1600DPI Optical Gaming Mouse', 'N/A', 'N/A', '88880', 416, 'Innovative', '2019-06-26 00:00:00', 'Available', 'Mouse', '2019-07-05 21:03:14', '2019-07-09 22:46:54'),
+(180, NULL, 'Wireless Mini Bluetooth Optical Mouse', 'OEM', '6D 1600DPI Optical Gaming Mouse', 'N/A', 'N/A', '88881', 416, 'Innovative', '2019-06-26 00:00:00', 'Available', 'Mouse', '2019-07-05 21:04:09', '2019-07-05 22:24:15'),
+(181, NULL, 'Kingston A400 240GB SSD SATA3', 'Kingston', 'A400', 'N/A', 'N/A', 'AAAAB', 1750, 'Tiongsan', '2019-06-29 00:00:00', 'Available', 'Hard Drive/SSD', '2019-07-05 21:06:22', '2019-07-05 22:11:13'),
+(182, NULL, 'H120 Ares Headset', 'Redragon', 'H120 Ares Gaming Headset', 'N/A', 'N/A', 'BBBBB', 480, 'Innovative', '2019-06-24 00:00:00', 'Available', 'Headset', '2019-07-05 21:07:44', '2019-07-05 22:11:13'),
+(183, NULL, 'Cooler Master MasterLiquid', 'Cooler Master', 'MasterLiquid Lite 240 Liquid Cooler', 'N\\A', 'N\\A', 'ddddd', 3000, 'Comerge', '2019-06-28 00:00:00', 'Available', 'Processor Cooling', '2019-07-05 21:08:05', '2019-07-05 22:11:13'),
+(184, NULL, 'SanDisk 500GB Ultra 3D NAND SATA III', 'SanDisk', 'SDSSDH3', 'N/A', 'N/A', 'AAAAC', 3649, 'Hinjitsu', '2019-06-28 00:00:00', 'Available', 'Hard Drive/SSD', '2019-07-05 21:09:49', '2019-07-09 22:46:54'),
+(185, NULL, 'Cooler Master MasterLiquid', 'Cooler Master', 'MasterLiquid Lite 240 Liquid Cooler', 'N\\A', 'N\\A', 'dddde', 3000, 'Comerge', '2019-06-29 00:00:00', 'Available', 'Processor Cooling', '2019-07-05 21:10:18', '2019-07-09 22:46:54'),
+(186, NULL, 'Gaming Bass Headset', 'AESOPCOM', 'Gaming LED Light HD Bass Headset with Mic', 'N/A', 'N/A', 'BBBBC', 349, 'Hinjitsu', '2019-06-24 00:00:00', 'Available', 'Headset', '2019-07-05 21:10:54', '2019-07-05 22:22:59'),
+(187, NULL, 'Western Digital WD Green 240GB SATA III Internal SSD', 'Western Digital', 'WDS240G2G0A', 'N/A', 'N/A', 'AAAAD', 1595, 'Hinjitsu', '2019-06-28 00:00:00', 'Available', 'Hard Drive/SSD', '2019-07-05 21:11:06', '2019-07-05 22:12:26'),
+(188, NULL, 'Silicion Power Ace A55 256GB SSD 3D NAND SLC Cache Performance Boost SATA III', 'Silicon Power', 'Ace A55', 'N/A', 'N/A', 'AAAAE', 1750, 'Tiongsan', '2019-06-25 00:00:00', 'Available', 'Hard Drive/SSD', '2019-07-05 21:12:41', '2019-07-05 21:12:41'),
+(189, NULL, 'Gaming Headset', 'Alcatroz', 'X-Craft HP5000 Gaming Headset', 'N/A', 'N/A', 'BBBBD', 999, 'Hinjitsu', '2019-06-24 00:00:00', 'Available', 'Headset', '2019-07-05 21:13:41', '2019-07-09 22:46:54'),
+(190, NULL, 'DeepCool ICE EDGE', 'DeepCool', 'ICE EDGE MINI FS V2.0', 'N\\A', 'N\\A', 'ddddf', 400, 'Comerge', '2019-06-29 00:00:00', 'Available', 'Processor Cooling', '2019-07-05 21:14:09', '2019-07-05 22:12:27'),
+(191, NULL, 'DeepCool ICE EDGE', 'DeepCool', 'ICE EDGE MINI FS V2.0', 'N\\A', 'N\\A', 'ddddg', 400, 'Comerge', '2019-06-29 00:00:00', 'Available', 'Processor Cooling', '2019-07-05 21:14:26', '2019-07-05 22:24:15'),
+(192, NULL, 'Office 365 Personal', 'Microsoft', 'Office 365 Personal', 'N/A', 'N/A', 'CCCCD', 3499, 'Innovative', '2019-06-26 00:00:00', 'Available', 'MS', '2019-07-05 21:18:16', '2019-07-05 22:11:13'),
+(193, NULL, 'Seagate Barracuda 1TB SATA Internal Hard Disk Drive', 'Seagate', 'Barracuda', 'N/A', 'N/A', 'AAAAF', 2688, 'Innovative', '2019-06-29 00:00:00', 'Available', 'Hard Drive/SSD', '2019-07-05 21:18:24', '2019-07-05 21:18:24'),
+(194, NULL, 'Gaming Headset', 'Fantech', 'HG11 RGB Captain 7.1 Surround Sound Gaming Headset', 'N/A', 'N/A', 'BBBBE', 1210, 'Hinjitsu', '2019-06-25 00:00:00', 'Available', 'Headset', '2019-07-05 21:18:59', '2019-07-05 22:12:27'),
+(195, NULL, 'Microsoft Office 2019 Professional Plus', 'Microsoft', 'Office 2019 Professional Plus', 'N/A', 'N/A', 'CCCCE', 2547, 'Innovative', '2019-06-26 00:00:00', 'Available', 'MS', '2019-07-05 21:19:18', '2019-07-09 22:46:54'),
+(196, NULL, 'MICROSOFT OFFICE 365 PERSONAL 2019', 'Microsoft', 'OFFICE 365 PERSONAL 2019', 'N/A', 'N/A', 'CCCCF', 3199, 'Hinjitsu', '2019-06-30 00:00:00', 'Available', 'MS', '2019-07-05 21:20:19', '2019-07-05 22:12:27'),
+(197, NULL, 'HG14 7.1 Gaming Headset', 'Fantech', 'Captain HG14 7.1 Gaming Headset, True 7.1 Surround Sound with Noise Cancelling MIcrophone', 'N/A', 'N/A', 'BBBBF', 1209, 'Hinjitsu', '2019-07-23 00:00:00', 'Available', 'Headset', '2019-07-05 21:23:42', '2019-07-05 22:24:15'),
+(198, NULL, 'Seagate Internal 1TB HDD Skyhawk Video Surveillance Hard Drive Disk', 'Seagate', 'Skyhawk', 'N/A', 'N/A', 'AAAAG', 2149, 'Innovative', '2019-06-29 00:00:00', 'Available', 'Hard Drive/SSD', '2019-07-05 21:53:52', '2019-07-05 21:53:52'),
+(199, NULL, 'Seagate Firecuda 1TB', 'Seagate', 'Firecuda', 'N/A', 'N/A', 'AAAAH', 3686, 'Innovative', '2019-06-29 00:00:00', 'Available', 'Hard Drive/SSD', '2019-07-05 21:54:43', '2019-07-05 22:24:15');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `officialreceipt`
+--
+
+DROP TABLE IF EXISTS `officialreceipt`;
+CREATE TABLE IF NOT EXISTS `officialreceipt` (
+  `or_no` int(100) NOT NULL AUTO_INCREMENT,
+  `cost` int(100) NOT NULL,
+  `date` date NOT NULL,
+  PRIMARY KEY (`or_no`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orders`
+--
+
+DROP TABLE IF EXISTS `orders`;
+CREATE TABLE IF NOT EXISTS `orders` (
+  `order_id` int(11) NOT NULL AUTO_INCREMENT,
+  `or_number` varchar(255) NOT NULL,
+  `client_id` int(11) NOT NULL COMMENT 'may ari nang order',
+  `order_type` varchar(50) NOT NULL COMMENT 'pc, service, individual_parts',
+  `order_status` varchar(50) NOT NULL COMMENT 'Paid / Unpaid',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`order_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='orders of service, build pc and choose parts';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_details`
+--
+
+DROP TABLE IF EXISTS `order_details`;
+CREATE TABLE IF NOT EXISTS `order_details` (
+  `order_details_id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) NOT NULL COMMENT 'orders.order_id',
+  `inventory_id` int(11) NOT NULL COMMENT 'inventory.inventory_id',
+  `pending_item` varchar(255) DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`order_details_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchaseorder`
+--
+
+DROP TABLE IF EXISTS `purchaseorder`;
+CREATE TABLE IF NOT EXISTS `purchaseorder` (
+  `po_no` int(255) NOT NULL,
+  `supplier_id` int(255) NOT NULL,
+  `dr_no` int(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `brand` varchar(255) NOT NULL,
+  `model` varchar(255) NOT NULL,
+  `qty` int(255) NOT NULL,
+  `unit_price` int(255) NOT NULL,
+  `total_price` int(255) NOT NULL,
+  PRIMARY KEY (`po_no`),
+  KEY `supplier_id` (`supplier_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchases`
+--
+
+DROP TABLE IF EXISTS `purchases`;
+CREATE TABLE IF NOT EXISTS `purchases` (
+  `purchase_id` int(255) NOT NULL AUTO_INCREMENT,
+  `srf_no` int(255) NOT NULL,
+  `invoice` double NOT NULL,
+  `status` varchar(255) NOT NULL,
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`purchase_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchase_details`
+--
+
+DROP TABLE IF EXISTS `purchase_details`;
+CREATE TABLE IF NOT EXISTS `purchase_details` (
+  `purdet_id` int(11) NOT NULL AUTO_INCREMENT,
+  `purchase_id` int(11) NOT NULL,
+  `inventory_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`purdet_id`),
+  KEY `inventory_id` (`inventory_id`),
+  KEY `purchase_id` (`purchase_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `replacement`
+--
+
+DROP TABLE IF EXISTS `replacement`;
+CREATE TABLE IF NOT EXISTS `replacement` (
+  `replace_id` int(255) NOT NULL AUTO_INCREMENT,
+  `srf_no` int(255) NOT NULL,
+  `credit_no` int(255) NOT NULL,
+  `item` varchar(255) NOT NULL,
+  `brand` varchar(255) NOT NULL,
+  `serial_no` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL DEFAULT 'Replacement',
+  `price` double NOT NULL,
+  `supplier` varchar(255) NOT NULL,
+  `date_recieved` datetime NOT NULL,
+  `quantity` int(11) NOT NULL,
+  PRIMARY KEY (`replace_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sales`
+--
+
+DROP TABLE IF EXISTS `sales`;
+CREATE TABLE IF NOT EXISTS `sales` (
+  `sale_id` int(255) NOT NULL AUTO_INCREMENT,
+  `order_id` int(255) DEFAULT NULL,
+  `cost` int(255) NOT NULL DEFAULT '0',
+  `user_id` int(255) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`sale_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `services`
+--
+
+DROP TABLE IF EXISTS `services`;
+CREATE TABLE IF NOT EXISTS `services` (
+  `service_id` int(255) NOT NULL AUTO_INCREMENT,
+  `srf_no` int(255) NOT NULL,
+  `brand` varchar(255) DEFAULT NULL,
+  `warranty` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `status` varchar(255) NOT NULL,
+  `date_finished` varchar(50) NOT NULL,
+  `user_id` int(255) NOT NULL,
+  `client_id` int(255) NOT NULL COMMENT 'items sa inventory',
+  `order_id` int(255) DEFAULT NULL,
+  `service_cost` int(255) NOT NULL,
+  `serial` varchar(255) DEFAULT NULL,
+  `accessories` varchar(255) DEFAULT NULL,
+  `repair_model` varchar(255) DEFAULT NULL,
+  `case_id` varchar(255) DEFAULT NULL,
+  `unit_password` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`service_id`),
+  KEY `client_id` (`client_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `supplier`
+--
+
+DROP TABLE IF EXISTS `supplier`;
+CREATE TABLE IF NOT EXISTS `supplier` (
+  `supplier_id` int(100) NOT NULL,
+  `supplier_name` varchar(100) NOT NULL,
+  `supplier_address` varchar(100) DEFAULT NULL,
+  `supplier_contactno` int(100) DEFAULT NULL,
+  `supplier_contactperson` int(100) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `supplier`
+--
+
+INSERT INTO `supplier` (`supplier_id`, `supplier_name`, `supplier_address`, `supplier_contactno`, `supplier_contactperson`, `created_at`, `updated_at`) VALUES
+(1, 'Bridge Distribution', '#12 Dimakita St. Natulog City', 2147483647, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(2, 'Iontech Inc.', NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(3, 'VST-MSI ECS INC', NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(4, 'Techtron', NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(5, 'Innovista', NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(6, 'Ubertech Inc', NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(7, 'Phenomenal Solution', NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(8, 'Banbros commercial', NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(9, 'Solid Business Machines Inc.', NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(10, 'Philteq Inc', NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(11, 'Nancom Technologies', NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(12, 'Accesories and Supplies Depot Inc', NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(13, 'Claritrade Inc', NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(14, 'Astech Pengson Inc', NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(15, 'Grandtech International Enterprises', NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(1, 'Bridge Distribution', '#12 Dimakita St. Natulog City', 2147483647, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(2, 'Iontech Inc.', NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(3, 'VST-MSI ECS INC', NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(4, 'Techtron', NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(5, 'Innovista', NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(6, 'Ubertech Inc', NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(7, 'Phenomenal Solution', NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(8, 'Banbros commercial', NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(9, 'Solid Business Machines Inc.', NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(10, 'Philteq Inc', NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(11, 'Nancom Technologies', NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(12, 'Accesories and Supplies Depot Inc', NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(13, 'Claritrade Inc', NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(14, 'Astech Pengson Inc', NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(15, 'Grandtech International Enterprises', NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `user_id` int(255) NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(255) NOT NULL,
+  `last_name` varchar(255) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `last_login` date NOT NULL,
+  `type` enum('service engineer','Administrator') NOT NULL DEFAULT 'service engineer',
+  `email` varchar(255) DEFAULT NULL,
+  `birthdate` date DEFAULT NULL,
+  `profile_pic` varchar(45) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `contact` varchar(11) NOT NULL,
+  `gender` varchar(10) NOT NULL,
+  `status` enum('Enable','Disabled') NOT NULL DEFAULT 'Enable',
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`user_id`, `first_name`, `last_name`, `username`, `password`, `last_login`, `type`, `email`, `birthdate`, `profile_pic`, `created_at`, `updated_at`, `contact`, `gender`, `status`) VALUES
+(6, '', '', 'chris', '$2y$10$hb0m4v9MfMaXOQqmVFG45.EKE96lsfROkkZGOOgMZOtiTKTyBCCTC', '2019-07-09', 'service engineer', 'sample@email.com', NULL, '1556297842.jpg', '2019-03-03 08:00:00', '2019-07-09 14:41:46', '', '', 'Enable'),
+(11, 'The', 'Admin', 'graebagani', '$2y$10$hb0m4v9MfMaXOQqmVFG45.EKE96lsfROkkZGOOgMZOtiTKTyBCCTC', '2019-07-09', 'Administrator', 'grae@gmail.com', '1982-01-24', NULL, '2019-04-16 22:20:58', '2019-07-09 14:41:46', '09267257920', 'Female', 'Disabled'),
+(13, 'Malou', 'Yusongco', 'Malou', '$2y$10$6VAK6PjXAqdrwQ00qVcAquPVhbgdSKjyd/4apvKFACi3DQHb3Rzbq', '2019-07-09', 'Administrator', 'admin@yahoo.com', '1996-08-12', NULL, '2019-06-02 13:44:07', '2019-07-09 14:41:46', '09234234125', 'Male', 'Enable'),
+(14, 'Noreen', 'Dizon', 'Dizonoreanne', '$2y$10$655RLHR/YnfFwC7YSAhHp.w42AVyK2i.KfpfLOkvMQMuF3I/4H3Ji', '2019-07-09', 'service engineer', '2151789@slu.edu.ph', '1997-12-16', NULL, '2019-07-05 03:57:32', '2019-07-09 14:41:46', '09278022332', 'Female', 'Enable'),
+(15, 'Macey', 'Alejo', 'maceyalejo', '$2y$10$Q69AnbID.zskoY/E0xy23umf7h5gEzzybMHMH1gSvzdGHB3d5m2CG', '2019-07-09', 'service engineer', 'msdralejo@gmail.com', '1995-07-02', NULL, '2019-07-05 03:57:37', '2019-07-09 14:41:46', '09562265311', 'Female', 'Enable'),
+(16, 'Rach', 'Muyargas', 'Rach', '$2y$10$DCMKsQAeHOmGyy0g4.L70.mN7VlhzNHCyw6kITgi5mHVODi2UCbC.', '2019-07-09', 'service engineer', 'rachxmuyargas@gmail.com', '1998-09-22', NULL, '2019-07-05 03:57:54', '2019-07-09 14:41:46', '09558220838', 'Female', 'Enable'),
+(17, 'Graeham', 'Solis', 'graeham', '$2y$10$cLEfNNoFObaNGMswqkEo7.8ZV05ys5TAEx6SbGM74nq0eHEpNE98G', '2019-07-09', 'service engineer', 'graesolis@gmail.com', '1997-11-20', NULL, '2019-07-05 03:59:54', '2019-07-09 14:41:46', '09123456789', 'Male', 'Disabled');
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `purchase_details`
+--
+ALTER TABLE `purchase_details`
+  ADD CONSTRAINT `purchase_details_ibfk_1` FOREIGN KEY (`inventory_id`) REFERENCES `inventory` (`inventory_id`),
+  ADD CONSTRAINT `purchase_details_ibfk_2` FOREIGN KEY (`purchase_id`) REFERENCES `purchases` (`purchase_id`),
+  ADD CONSTRAINT `purchase_details_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
